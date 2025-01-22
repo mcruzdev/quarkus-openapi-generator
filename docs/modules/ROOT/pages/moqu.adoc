@@ -21,7 +21,7 @@ Currently, this extension supports only link:https://wiremock.org/[WireMock] def
 </dependency>
 ----
 
-Now, create the following OpenAPI specification file under your `src/main/openapi` directory:
+Now, create the following OpenAPI specification file under your `src/resources/openapi` directory:
 
 [source,yaml]
 .src/main/openapi/hello.yaml
@@ -72,12 +72,15 @@ components:
             hello: world
 ----
 
-Execute now your application on Dev mode, and executes:
+Execute now your application on Dev mode, and access the Dev UI for getting you wiremock stubbing:
 
-[source,shell]
-----
-curl http://localhost:8888/frameworks/1
-----
+image::moqu-devui-card-framework.png[]
+
+Click on `Moqu Wiremock`, you will se a table containing all wiremock definitions:
+
+image::table-wiremock.png[]
+
+Now, you can `see` or `download` the Wiremock stubbing.
 
 == Request matching
 
