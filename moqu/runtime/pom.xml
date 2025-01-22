@@ -18,6 +18,7 @@
             <artifactId>quarkus-openapi-generator-moqu-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-core</artifactId>

@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Testing {
+public class TestUtils {
 
     public static String readContentFromFile(String resourcePath) {
         URL url = Thread.currentThread().getContextClassLoader().getResource((resourcePath));

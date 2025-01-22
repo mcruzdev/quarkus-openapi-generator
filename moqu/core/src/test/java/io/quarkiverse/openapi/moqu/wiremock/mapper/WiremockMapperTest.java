@@ -1,6 +1,6 @@
 package io.quarkiverse.openapi.moqu.wiremock.mapper;
 
-import static io.quarkiverse.openapi.moqu.Testing.readContentFromFile;
+import static io.quarkiverse.openapi.moqu.TestUtils.readContentFromFile;
 
 import java.util.List;
 

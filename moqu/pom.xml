@@ -12,6 +12,7 @@
 
     <modules>
         <module>core</module>
-        <module>moqu-wiremock</module>
+        <module>deployment</module>
+        <module>runtime</module>
     </modules>
 </project>

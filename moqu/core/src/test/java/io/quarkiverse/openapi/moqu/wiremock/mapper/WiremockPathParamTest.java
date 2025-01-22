@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkiverse.openapi.moqu.Moqu;
 import io.quarkiverse.openapi.moqu.OpenAPIMoquImporter;
-import io.quarkiverse.openapi.moqu.Testing;
+import io.quarkiverse.openapi.moqu.TestUtils;
 import io.quarkiverse.openapi.moqu.wiremock.model.WiremockMapping;
 
 public class WiremockPathParamTest {
@@ -18,7 +18,7 @@ public class WiremockPathParamTest {
     @DisplayName("Should convert a OpenAPI with a single path param correctly")
     void shouldMapOneWiremockDefinition() {
 
-        String content = Testing.readContentFromFile("wiremock/path_param_one_path_param.yml");
+        String content = TestUtils.readContentFromFile("wiremock/path_param_one_path_param.yml");
         if (content == null) {
             Assertions.fail("Was not possible to read the file!");
         }
@@ -50,7 +50,7 @@ public class WiremockPathParamTest {
     @DisplayName("Should convert with a two OpenAPI#paths each one with one path param")
     void shouldMapTwoWiremockDefinitions() {
 
-        String content = Testing.readContentFromFile("wiremock/path_param_two_params_but_different_path.yml");
+        String content = TestUtils.readContentFromFile("wiremock/path_param_two_params_but_different_path.yml");
         if (content == null) {
             Assertions.fail("Was not possible to read the file!");
         }
@@ -91,7 +91,7 @@ public class WiremockPathParamTest {
     @DisplayName("Should convert with a combination of path param")
     void shouldConvertWithACombinationOfPathParam() {
 
-        String content = Testing.readContentFromFile("wiremock/path_param_two_path_params_combination.yml");
+        String content = TestUtils.readContentFromFile("wiremock/path_param_two_path_params_combination.yml");
         if (content == null) {
             Assertions.fail("Was not possible to read the file!");
         }
@@ -133,7 +133,7 @@ public class WiremockPathParamTest {
     @DisplayName("Should convert with a combination but only one with example")
     void shouldConvertPathParamCombinationOnlyOneWithExample() {
 
-        String content = Testing.readContentFromFile("wiremock/path_param_two_path_params_only_one_with_example.yml");
+        String content = TestUtils.readContentFromFile("wiremock/path_param_two_path_params_only_one_with_example.yml");
         if (content == null) {
             Assertions.fail("Was not possible to read the file!");
         }

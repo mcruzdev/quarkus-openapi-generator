@@ -1,5 +1,6 @@
 package io.quarkiverse.openapi.moqu.model;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,5 +13,5 @@ import java.util.List;
  * @param accept the "Accept" header, which specifies the expected response format.
  * @param parameters the list of parameters to be included in the request.
  */
-public record Request(String url, String httpMethod, String exampleName, Header accept, List<Parameter> parameters) {
+public record Request(String url, String httpMethod, String exampleName, Header accept, Collection<Parameter> parameters) {
 }
