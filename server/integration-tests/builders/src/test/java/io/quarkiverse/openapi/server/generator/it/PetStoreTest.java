@@ -1,5 +1,6 @@
 package io.quarkiverse.openapi.server.generator.it;
 
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,5 +18,16 @@ public class PetStoreTest {
         Assertions.assertEquals(1234L, pet.getId());
         Assertions.assertEquals("test", pet.getName());
         Assertions.assertEquals(Pet.Status.AVAILABLE, pet.getStatus());
+    }
+
+
+    @Test
+    public void testRestResponseGeneratedWithOperationIdsReturnType() {
+        Pet pet = new Pet().withName("test").withId(1234L).withStatus(Pet.Status.AVAILABLE);
+        RestAssured.given()
+                .body(pet)
+                .put("/pet")
+                .then()
+                .statusCode(200);
     }
 }
