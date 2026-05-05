@@ -10,6 +10,7 @@ import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.microprofile.config.Config;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,11 @@ public class CodegenTest {
 
     @BeforeAll
     public static void setup() throws IOException {
+        Files.createDirectories(Path.of(OUT_DIR));
+    }
+
+    @AfterAll
+    public static void cleanup() throws IOException {
         FileUtils.deleteDirectory(new File("target/generated-test-sources"));
     }
 
