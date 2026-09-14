@@ -82,6 +82,57 @@ image::table-wiremock.png[alt=Wiremock mappings table,width=640,height=480]
 
 Now, you can `see` or `download` the Wiremock stubbing.
 
+[[live-wiremock]]
+== Serving mocks live with WireMock (Dev mode & Tests)
+
+Add the link:https://docs.quarkiverse.io/quarkus-wiremock/dev/index.html[Quarkiverse WireMock] extension to your project:
+
+[source,xml]
+----
+<dependency>
+    <groupId>io.quarkiverse.wiremock</groupId>
+    <artifactId>quarkus-wiremock</artifactId>
+    <version>1.7.0</version>
+</dependency>
+----
+
+With both dependencies present, `quarkus-wiremock` runs an embedded WireMock server as a Dev Service in both Dev mode and `@QuarkusTest`/`@QuarkusIntegrationTest` runs,
+pre-loaded with your generated mocks.
+
+Every time your project is built for Dev mode or tests, Moqu writes each request/response pair as an individual WireMock stub file. It picks the target directory in this order: `quarkus.openapi-generator.moqu.wiremock.output-dir`, if set; otherwise `quarkus.wiremock.devservices.files-mapping`, if customized away from its own default (`src/test/resources`) and not a `classpath:` location (see the note below); otherwise `target/moqu-wiremock`. So if you already point `files-mapping` somewhere of your own choosing, Moqu follows it automatically — no extra configuration needed:
+
+[source,properties]
+.src/main/resources/application.properties
+----
+quarkus.wiremock.devservices.files-mapping=target/moqu-wiremock
+----
+
+Whichever directory is chosen might already hold files you maintain by hand (most likely when it resolves to `files-mapping`'s own default, `src/test/resources`), so Moqu only deletes files it previously generated itself there, recognized by their `moqu-` filename prefix — everything else is left untouched.
+
+NOTE: `classpath:`-prefixed `files-mapping` locations are never auto-followed, since the WireMock Dev Service reads that directory before Quarkus flushes generated resources onto the classpath. Point `files-mapping` (or `moqu.wiremock.output-dir`) at a plain filesystem path instead.
+
+Running `mvn quarkus:dev` starts a real WireMock server pre-loaded with your generated mocks; the Dev UI's "WireMock" card links to its live mappings. Editing the OpenAPI spec regenerates the stubs and restarts WireMock with them (`quarkus.wiremock.devservices.reload` defaults to `true`).
+
+The same wiring applies to `@QuarkusTest`. Use link:https://docs.quarkiverse.io/quarkus-wiremock/dev/index.html[`@ConnectWireMock`] to get the running server's URL injected, or to point a `@RestClient` straight at it:
+
+[source,java]
+----
+@QuarkusTest
+@ConnectWireMock
+class FrameworkClientTest {
+
+    WireMock wiremock; // <1>
+
+    @Test
+    void getsFrameworkFromMock() {
+        // call your application code; it talks to WireMock, not a real backend
+    }
+}
+----
+<1> Injected automatically once `@ConnectWireMock` is present; use `restClient = "..."` on the annotation to redirect a specific REST client to the mock server for the test.
+
+NOTE: Like the WireMock Dev Service itself, these generated stubs only exist for Dev mode and test builds — nothing is written, and nothing ships, in a production (`NORMAL`) build.
+
 == Request matching
 
 The Moqu extension uses the request and response examples defined in the OpenAPI Specification to determine the appropriate response for a specific request, creating a corresponding request/response pair.

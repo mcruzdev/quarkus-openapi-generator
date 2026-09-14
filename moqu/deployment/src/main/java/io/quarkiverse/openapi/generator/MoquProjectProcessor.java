@@ -21,6 +21,8 @@ import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.HotDeploymentWatchedFileBuildItem;
+import io.quarkus.deployment.builditem.LaunchModeBuildItem;
+import io.quarkus.runtime.LaunchMode;
 import io.quarkus.runtime.util.ClassPathUtils;
 
 public class MoquProjectProcessor {
@@ -79,9 +81,14 @@ public class MoquProjectProcessor {
         });
     }
 
-    @BuildStep(onlyIf = { IsDevelopment.class })
+    @BuildStep
     void consume(Optional<MoquProjectBuildItem> moquProject,
+            LaunchModeBuildItem launchMode,
             BuildProducer<MoquBuildItem> moquMocks) {
+
+        if (launchMode.getLaunchMode() == LaunchMode.NORMAL) {
+            return;
+        }
 
         OpenAPIMoquImporter importer = new OpenAPIMoquImporter();
         moquProject.ifPresent(project -> {
